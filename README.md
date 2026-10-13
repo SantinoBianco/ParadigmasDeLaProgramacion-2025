@@ -1,37 +1,59 @@
-# Paradigmas de la Programación — Haskell, Java y Apache Spark
+# Paradigmas de la Programación — Haskell, Java y Spark
 
-Trabajos grupales de **Paradigmas de la Programación (FAMAF–UNC, 2025)**, correspondientes a tres enfoques de programación.
+Tres laboratorios grupales realizados en **FAMAF, Universidad Nacional de Córdoba (2025)**. Este repositorio contiene ahora el **código fuente navegable** de los tres proyectos, junto con sus archivos de configuración y documentación.
 
 | Laboratorio | Proyecto | Tecnologías |
 | --- | --- | --- |
-| `paradigmas25-g10-lab1` | Lenguaje específico de dominio (DSL) para componer dibujos geométricos y generar imágenes/fractales | Haskell, GHC, Gloss, funciones de orden superior, `foldDib` |
-| `paradigmas25-g10-lab2` | **FeedReader**: lectura de feeds RSS y Reddit, análisis de artículos y detección heurística de entidades nombradas | Java, POO, JSON, HTTP |
-| `paradigmas25-g10-lab3` | Extensión de FeedReader para procesamiento de feeds RSS/Atom y entidades nombradas con **Apache Spark** | Java 11, Spark 3.5.1, paralelismo |
+| [Lab 1 — Programación funcional](./paradigmas25-g10-lab1) | DSL para componer dibujos geométricos: rotación, simetrías, superposición y gráficos como Escher | Haskell, GHC, Gloss |
+| [Lab 2 — Programación orientada a objetos](./paradigmas25-g10-lab2) | **FeedReader**: consulta de feeds RSS/Reddit y reconocimiento heurístico de entidades nombradas | Java, JSON, HTTP, POO |
+| [Lab 3 — Procesamiento paralelo](./paradigmas25-g10-lab3) | FeedReader extendido: soporte RSS/Atom y procesamiento paralelo de feeds y artículos | Java 11, Apache Spark 3.5.1 |
 
-## Ejecución (a partir del respaldo original)
+> **Nota:** este repositorio mantiene el nombre de la materia, pero las carpetas corresponden a proyectos de desarrollo concretos. Cada laboratorio conserva su propio README y código, recuperados del respaldo del equipo.
 
-**Lab 1 — Haskell:** instalar GHC y Gloss. Dentro de `paradigmas25-g10-lab1/`:
+## Cómo ejecutarlos
+
+Clonar:
 
 ```bash
+git clone https://github.com/SantinoBianco/ParadigmasDeLaProgramacion-2025.git
+cd ParadigmasDeLaProgramacion-2025
+```
+
+### Lab 1 — Haskell / Gloss
+
+Requiere **GHC** y el paquete **Gloss** instalado.
+
+```bash
+cd paradigmas25-g10-lab1
 ghc -package gloss Main.hs
 ./Main
 ```
 
-El ejemplo predeterminado usa una composición tipo Escher. El respaldo también tiene `instrucciones.md` para modificar `Main.hs` y mostrar una bandera o figuras fractales.
+El archivo [`instrucciones.md`](./paradigmas25-g10-lab1/instrucciones.md) detalla otras figuras y configuraciones.
 
-**Lab 2 — Java:** desde `paradigmas25-g10-lab2/`, con un JDK instalado:
+### Lab 2 — Java / FeedReader
+
+Requiere **JDK**. El proyecto incluye la biblioteca JSON que usa el código.
 
 ```bash
+cd paradigmas25-g10-lab2
 mkdir -p bin
 find src -name '*.java' > sources.txt
 javac -d bin -cp 'lib/json-20240303.jar' @sources.txt
 java -cp 'bin:lib/json-20240303.jar' FeedReaderMain
+```
+
+Para el modo de detección de entidades nombradas:
+
+```bash
 java -cp 'bin:lib/json-20240303.jar' FeedReaderMain -ne
 ```
 
-`-ne` ejecuta el modo de entidades nombradas. Los comandos de classpath corresponden a Linux/macOS.
+Las instrucciones de classpath están escritas para **Linux/macOS**; en Windows se utiliza `;` como separador.
 
-**Lab 3 — Java + Spark:** el README original indica Java 11 y Spark 3.5.1. El Makefile utiliza una ruta local que se debe sobrescribir:
+### Lab 3 — Java / Apache Spark
+
+Requiere **Java 11** y **Spark 3.5.1**. Dentro de `paradigmas25-g10-lab3/`, el Makefile permite indicar la ubicación de Spark:
 
 ```bash
 make SPARK_FOLDER=/ruta/a/spark-3.5.1-bin-hadoop3 build
@@ -39,10 +61,15 @@ make SPARK_FOLDER=/ruta/a/spark-3.5.1-bin-hadoop3 run-articles
 make SPARK_FOLDER=/ruta/a/spark-3.5.1-bin-hadoop3 run
 ```
 
-Los lectores RSS/Atom dependen de fuentes externas y su disponibilidad puede cambiar. No se verificó la ejecución completa en una instalación limpia.
+- `run-articles`: procesa e imprime artículos.
+- `run`: detecta y contabiliza entidades nombradas usando Spark.
 
-## Estado de los archivos en GitHub
+Consultá el [README del Lab 3](./paradigmas25-g10-lab3/README.md) para las decisiones de diseño y la configuración.
 
-**Importante:** los directorios de los tres laboratorios están actualmente registrados en GitHub como referencias `gitlink` (no como archivos navegables). **Se recuperaron los códigos fuente en el ZIP local de los laboratorios**, pero aún hace falta subirlos como archivos normales. Hasta entonces, los ejemplos de ejecución de arriba describen el respaldo original, no el contenido accesible al clonar este repositorio.
+## Conceptos aplicados
 
-Tras publicar las carpetas, cada laboratorio podrá consultarse desde GitHub con su código y su README original.
+- Diseño de un pequeño **lenguaje de dominio específico (DSL)** e interpretación de sus expresiones.
+- **Abstracción, herencia, polimorfismo** y separación de responsabilidades en Java.
+- **Procesamiento paralelo y distribuido** con Spark, RSS/Atom y extracción de información.
+
+**Estado:** código de los tres laboratorios publicado en GitHub. Las instrucciones se basan en los archivos y READMEs originales; no se comprobó la ejecución completa en todas las plataformas ni la disponibilidad actual de los feeds externos.
